@@ -2,7 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GoogleAIFileManager, FileState } from "@google/generative-ai/server";
 import * as fs from "fs";
 import * as path from "path";
-import { ScriptOutput, ScriptOutputSchema } from "../types/script.js";
+import { ScriptOutput, ScriptOutputSchema, VideoStyle, StyleConfig } from "../types/script.js";
 
 /**
  * ScriptGenerationService
@@ -79,18 +79,61 @@ export class ScriptGenerationService {
   }
 
   /**
-   * 构建系统提示词
+   * 风格描述映射
    */
-  private buildSystemInstruction(): string {
+  private readonly styleDescriptions: Record<VideoStyle, string> = {
+    cinematic: `**Cinematic Style**: Epic, movie-like visuals with dramatic camera movements.
+  - Camera: Sweeping dolly shots, dramatic zooms, slow-motion reveals
+  - Lighting: High contrast, volumetric rays, dramatic shadows
+  - Textures: Hyper-realistic materials, glossy surfaces, metallic reflections
+  - Color: Deep blacks, rich highlights, color grading like Hollywood films`,
+
+    academic: `**Academic/Hardcore Research Style**: Professional scientific visualization with rigorous accuracy.
+  - Camera: Steady, methodical movements, focus on data and diagrams, smooth transitions between figures
+  - Lighting: Clean, clinical, laboratory-style lighting, even illumination for clarity
+  - Textures: Technical diagrams, molecular structures rendered accurately, electron microscopy aesthetics
+  - Color: Scientific publication color schemes (Nature/Science/Cell style), precise data visualization palettes
+  - Elements: Include proper scientific labels, scale bars, statistical annotations, pathway diagrams
+  - Typography: Clean sans-serif fonts, proper scientific notation, Greek symbols where appropriate
+  - Tone: Authoritative, precise, peer-review quality visuals that could appear in a journal figure`,
+
+    anime: `**American Animation Style**: Western cartoon aesthetic inspired by Pixar, Disney, and modern streaming animations (Arcane, Spider-Verse).
+  - Camera: Dynamic 3D camera movements, dramatic depth of field, cinematic angles like Into the Spider-Verse
+  - Lighting: Stylized volumetric lighting, expressive shadows, rim lights for character pop
+  - Textures: Painterly brushstroke overlays, subtle cel-shading, mixed-media effects
+  - Color: Bold saturated palettes, complementary color contrasts, expressive color grading
+  - Characters: Expressive faces, exaggerated proportions, fluid squash-and-stretch motion
+  - Effects: Particle effects, motion blur, comic-book style impact frames`,
+
+    minimalist: `**Minimalist Style (3Blue1Brown-inspired)**: Clean, math-first visuals that build intuition step-by-step.
+  - Camera: Smooth, purposeful movements that guide attention; elegant transitions between concepts
+  - Visuals: Simple geometric shapes, vectors, graphs, and diagrams; NO clutter or decoration
+  - Animation: Fluid, continuous morphing; objects transform and connect logically; motion reveals relationships
+  - Color: Dark background (deep blue/black) with vibrant accent colors (blue, yellow, pink, green) for different elements
+  - Typography: Clean mathematical notation, equations that animate and transform
+  - Approach: Visual metaphors that make abstract concepts tangible; each frame serves a pedagogical purpose
+  - Pacing: Let animations breathe—show one idea at a time, build complexity gradually`
+  };
+
+  /**
+   * 构建系统提示词
+   * @param styleConfig 视频风格配置
+   */
+  private buildSystemInstruction(styleConfig: StyleConfig): string {
+    const styleGuide = this.styleDescriptions[styleConfig.style];
+
     return `You are a world-class science communicator and viral video director. Your mission is to bridge the gap between cutting-edge scientific research and TikTok-style viral content.
 
 ## Your Task
-Analyze the uploaded scientific paper and transform it into a 30-second TikTok/Reels-style video script.
+Analyze the uploaded scientific paper and transform it into a 30-60 seconds TikTok/Reels-style video script.
 
 ## Thinking Process (You MUST follow these steps internally)
 1. **Identify the Core Discovery**: Find the paper's "Aha!" moment - what makes this research exciting and newsworthy?
-2. **Visualize the Mechanism**: How can microscopic processes (molecules binding, cells dividing, reactions occurring) be shown cinematically?
+2. **Visualize the Mechanism**: How can microscopic processes (molecules binding, cells dividing, reactions occurring) be shown in the specified visual style?
 3. **Simplify with Metaphors**: Translate jargon into everyday language that anyone can understand.
+
+## Visual Style Guide (CRITICAL - Follow This Exactly)
+${styleGuide}
 
 ## Output Constraints (STRICT)
 
@@ -103,36 +146,45 @@ Analyze the uploaded scientific paper and transform it into a 30-second TikTok/R
 
 ### Visual Description Rules:
 - **Language**: English ONLY (required for Veo 3 video generation)
-- **Format**: Cinematic prompt style with specific details about:
-  - Camera movements (Zoom, Pan, Dolly, Macro shot, Aerial view)
-  - Lighting (Dramatic shadows, Soft diffused light, Bioluminescent glow)
-  - Materials and textures (Glossy, Matte, Translucent, Metallic)
-  - Color palette (specify dominant colors)
+- **Format**: MUST follow the "${styleConfig.style}" style guide above with specific details about:
+  - Camera movements appropriate to the style
+  - Lighting that matches the aesthetic
+  - Materials and textures consistent with the style
+  - Color palette that fits the chosen style
 - **Scientific Accuracy**: Visuals MUST be scientifically accurate - no artistic liberties that misrepresent the science
+- **Style Consistency**: Every scene MUST maintain the same visual style throughout
 
 ### Scene Structure:
-- Generate 5-6 scenes that together form a 30-second video
-- Each scene should be 4-6 seconds
-- Scene 1: Hook (grab attention immediately)
-- Scenes 2-4: Build understanding of the mechanism
-- Scene 5-6: Reveal the impact/significance
+- Generate between 5-10 scenes based on the paper's complexity and content richness
+- Simple findings → 5-6 scenes; Complex multi-step mechanisms → 8-10 scenes
+- Total video length: 30-60 seconds (each scene ~5 seconds)
+- Structure guideline:
+  - First 1-2 scenes: Hook (grab attention with the most surprising finding)
+  - Middle scenes (flexible): Build understanding step-by-step, one concept per scene
+  - Final 1-2 scenes: Reveal impact, significance, or future implications
+- IMPORTANT: Quality over quantity—only add scenes if they contribute meaningful content
 
 ### Key Scientific Concepts:
 - List the actual scientific entities that should appear in each visual
 - These will be used to ensure visual accuracy
 
-Remember: You're not dumbing down science - you're making it ACCESSIBLE and EXCITING!`;
+Remember: You're not dumbing down science - you're making it ACCESSIBLE and EXCITING in the ${styleConfig.style} style!`;
   }
 
   /**
    * 主生成函数：将 PDF 论文转化为剧本
    * @param pdfPath PDF 文件路径
+   * @param styleConfig 视频风格配置（默认为 cinematic）
    * @returns 结构化的剧本输出
    */
-  async generateScript(pdfPath: string): Promise<ScriptOutput> {
+  async generateScript(
+    pdfPath: string,
+    styleConfig: StyleConfig = { style: "cinematic" }
+  ): Promise<ScriptOutput> {
     try {
       console.log("🎬 Starting script generation...");
       console.log(`📄 Processing: ${pdfPath}`);
+      console.log(`🎨 Style: ${styleConfig.style}`);
 
       // Step 1: 上传 PDF 文件
       const fileUri = await this.uploadToGemini(pdfPath, "application/pdf");
@@ -140,7 +192,7 @@ Remember: You're not dumbing down science - you're making it ACCESSIBLE and EXCI
       // Step 2: 配置模型
       const model = this.genAI.getGenerativeModel({
         model: this.modelName,
-        systemInstruction: this.buildSystemInstruction(),
+        systemInstruction: this.buildSystemInstruction(styleConfig),
       });
 
       // Step 3: 配置生成参数

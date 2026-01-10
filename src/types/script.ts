@@ -1,4 +1,20 @@
 /**
+ * 视频风格类型
+ */
+export type VideoStyle = 
+  | "cinematic"      // 电影风格：史诗感、电影运镜、戏剧性光影
+  | "academic"       // 硬核科研风格：学术派、数据可视化、专业严谨
+  | "anime"          // 美式动漫风格：Pixar/Spider-Verse/Arcane 风格
+  | "minimalist";    // 极简风格：3Blue1Brown 式数学可视化、几何动画
+
+/**
+ * 视频风格配置
+ */
+export interface StyleConfig {
+  style: VideoStyle;
+}
+
+/**
  * 单个场景/分镜的定义
  */
 export interface Scene {
@@ -28,50 +44,52 @@ export interface ScriptOutput {
   scenes: Scene[];
 }
 
+import { SchemaType } from "@google/generative-ai";
+
 /**
  * Gemini API 的 JSON Schema 定义
  * 用于 responseSchema 配置
  */
 export const ScriptOutputSchema = {
-  type: "object",
+  type: SchemaType.OBJECT,
   properties: {
     title: {
-      type: "string",
+      type: SchemaType.STRING,
       description: "An engaging English title for the video"
     },
     scientific_field: {
-      type: "string",
+      type: SchemaType.STRING,
       description: "The scientific field this paper belongs to"
     },
     scenes: {
-      type: "array",
+      type: SchemaType.ARRAY,
       description: "Array of video scenes/shots",
       items: {
-        type: "object",
+        type: SchemaType.OBJECT,
         properties: {
           id: {
-            type: "number",
+            type: SchemaType.NUMBER,
             description: "Scene sequence number"
           },
           timestamp: {
-            type: "string",
+            type: SchemaType.STRING,
             description: "Timestamp range, e.g., '00-05s'"
           },
           voiceover: {
-            type: "string",
+            type: SchemaType.STRING,
             description: "English voiceover script, conversational and punchy"
           },
           visual_description: {
-            type: "string",
+            type: SchemaType.STRING,
             description: "Detailed English visual prompt for Veo 3 video generation"
           },
           key_scientific_concepts: {
-            type: "array",
-            items: { type: "string" },
+            type: SchemaType.ARRAY,
+            items: { type: SchemaType.STRING },
             description: "Key scientific entities that must appear in the visual"
           },
           motion_intensity: {
-            type: "string",
+            type: SchemaType.STRING,
             enum: ["Low", "Medium", "High"],
             description: "The intensity of motion in this scene"
           }
@@ -88,4 +106,4 @@ export const ScriptOutputSchema = {
     }
   },
   required: ["title", "scientific_field", "scenes"]
-} as const;
+};
