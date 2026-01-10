@@ -68,7 +68,7 @@ export function StyleSelector() {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="w-full mx-auto space-y-6"
+      className="w-full px-4 space-y-6"
     >
       <div className="text-center space-y-2">
         <motion.div 

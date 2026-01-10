@@ -71,14 +71,14 @@ export default function Home() {
             <Sparkles className="w-5 h-5 text-primary-foreground" />
           </motion.div>
           <div>
-            <h1 className="text-lg font-bold tracking-tight">Paper2Video</h1>
+            <h1 className="text-lg font-bold tracking-tight">SciVid AI</h1>
             <p className="text-xs text-muted-foreground">Powered by Gemini & Veo</p>
           </div>
         </div>
         
         <div className="flex items-center gap-2">
           <motion.a
-            href="https://github.com"
+            href="https://github.com/Monomanae/Paper-Video/tree/main"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
@@ -123,25 +123,6 @@ export default function Home() {
                 </p>
               </motion.div>
               
-              {/* Feature Pills */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="flex flex-wrap justify-center gap-2 mt-6"
-              >
-                {['Gemini 3 Paper Analysis', 'Veo 3.1 Video Rendering', 'ImageFX Storyboards', 'Multiple Visual Styles'].map((feature, i) => (
-                  <motion.span
-                    key={feature}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 + i * 0.1 }}
-                    className="px-3 py-1.5 rounded-full text-xs font-medium glass glass-border"
-                  >
-                    {feature}
-                  </motion.span>
-                ))}
-              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -209,8 +190,8 @@ export default function Home() {
         transition={{ delay: 0.8 }}
         className="relative z-10 text-center py-8 text-sm text-muted-foreground"
       >
-        <p>
-          Built for Google AI Hackathon 2026 · 
+        <p> 
+          <span> SB Hacks 2026 </span> · 
           <span className="text-primary"> Gemini</span> · 
           <span className="text-accent"> Veo</span> · 
           <span className="text-gemini-cyan"> ImageFX</span>
