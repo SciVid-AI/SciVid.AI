@@ -1,5 +1,9 @@
 # SciVid.AI
 
+## Developers
+Haibo Yang, Rui Tong, Hao Ding
+
+## Description
 **SciVid.AI** transforms abstract, sophisticated academic papers into engaging 1-minute videos. Our platform bridges the gap between dense scholarly text and visual storytelling and offers users four distinct cinematic directions to match their audience:
 * Cinematic: High-production value with dramatic visuals for broad appeal.
 * Academic: Clean, diagram-heavy, and professional—ideal for research presentations.
