@@ -7,7 +7,6 @@ import { ScriptOutput, ScriptOutputSchema, VideoStyle, StyleConfig } from "../ty
 /**
  * ScriptGenerationService
  * 
- * 将科研论文 PDF 转化为 30 秒 TikTok/Reels 风格短视频剧本
  */
 export class ScriptGenerationService {
   private genAI: GoogleGenerativeAI;
@@ -125,7 +124,7 @@ export class ScriptGenerationService {
     return `You are a world-class science communicator and viral video director. Your mission is to bridge the gap between cutting-edge scientific research and TikTok-style viral content.
 
 ## Your Task
-Analyze the uploaded scientific paper and transform it into a 30-60 seconds TikTok/Reels-style video script.
+Analyze the uploaded scientific paper and transform it into a TikTok/Reels-style video script.
 
 ## Thinking Process (You MUST follow these steps internally)
 1. **Identify the Core Discovery**: Find the paper's "Aha!" moment - what makes this research exciting and newsworthy?
@@ -141,8 +140,10 @@ ${styleGuide}
 - **Language**: English ONLY
 - **Style**: Conversational, punchy, energetic
 - **Structure**: Short sentences. No complex clauses. Use rhetorical questions to hook viewers.
-- **Length**: Each scene's voiceover MUST fit within 5-8 seconds when spoken aloud (matches Veo's 8s limit)
+- **Length**: Voiceover should be 0.5-1 second SHORTER than the video duration (leave visual breathing room at the end)
+- **Word count**: Word count should be 15-20 words per scene
 - **NO academic jargon** - if a term is necessary, immediately explain it
+- **SYNC with visuals**: The voiceover MUST describe exactly what's happening on screen at that moment
 
 ### Visual Description Rules:
 - **Language**: English ONLY (required for Veo 3 video generation)
@@ -153,17 +154,15 @@ ${styleGuide}
   - Color palette that fits the chosen style
 - **Scientific Accuracy**: Visuals MUST be scientifically accurate - no artistic liberties that misrepresent the science
 - **Style Consistency**: Every scene MUST maintain the same visual style throughout
+- **SYNC with voiceover**: Visual description MUST match the voiceover content exactly. If voiceover says "the virus attaches", the visual MUST show attachment.
 
 ### Scene Structure:
-- Generate between 5-10 scenes based on the paper's complexity and content richness
-- **CRITICAL: Each scene MUST be 5-8 seconds MAX** (Veo 3 video generation limit is 8 seconds per clip)
-- Timestamp format examples: "00-05s", "05-10s", "10-18s" (NEVER exceed 8 seconds per scene)
-- Simple findings → 5-6 scenes; Complex multi-step mechanisms → 8-10 scenes
+- Generate **10-15 scenes** to ensure smooth pacing and transitions
+- More scenes = smoother transitions, less content per scene
 - Structure guideline:
-  - First 1-2 scenes: Hook (grab attention with the most surprising finding)
-  - Middle scenes (flexible): Build understanding step-by-step, one concept per scene
-  - Final 1-2 scenes: Reveal impact, significance, or future implications
-- Quality over quantity—only add scenes if they contribute meaningful content
+  - Scene 1-2: Hook (most surprising finding)
+  - Scene 3-10: Build understanding step-by-step
+  - Scene 11-15: Impact, significance, future implications
 
 ### Key Scientific Concepts:
 - List the actual scientific entities that should appear in each visual
@@ -221,7 +220,7 @@ Remember: You're not dumbing down science - you're making it ACCESSIBLE and EXCI
                 },
               },
               {
-                text: "Analyze this scientific paper and generate a 30-second viral video script following the exact JSON schema provided. Make it engaging, accurate, and visually stunning.",
+                text: "Analyze this scientific paper and generate a viral video script following the exact JSON schema provided. Make it engaging, accurate, and visually stunning.",
               },
             ],
           },
@@ -265,7 +264,7 @@ Remember: You're not dumbing down science - you're making it ACCESSIBLE and EXCI
       if (typeof scene.id !== "number") {
         throw new Error(`Invalid scene: missing or invalid id`);
       }
-      if (!scene.timestamp || !scene.voiceover || !scene.visual_description) {
+      if (!scene.voiceover || !scene.visual_description) {
         throw new Error(`Invalid scene ${scene.id}: missing required fields`);
       }
       if (!["Low", "Medium", "High"].includes(scene.motion_intensity)) {

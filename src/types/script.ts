@@ -20,8 +20,6 @@ export interface StyleConfig {
 export interface Scene {
   /** 场景序号 */
   id: number;
-  /** 时间戳，例如: "00-05s" */
-  timestamp: string;
   /** 英语旁白，风格需口语化、快节奏 */
   voiceover: string;
   /** 给 Veo 3 用的详细英文画面提示词 */
@@ -119,10 +117,6 @@ export const ScriptOutputSchema = {
             type: SchemaType.NUMBER,
             description: "Scene sequence number"
           },
-          timestamp: {
-            type: SchemaType.STRING,
-            description: "Timestamp range, e.g., '00-05s'"
-          },
           voiceover: {
             type: SchemaType.STRING,
             description: "English voiceover script, conversational and punchy"
@@ -144,7 +138,6 @@ export const ScriptOutputSchema = {
         },
         required: [
           "id",
-          "timestamp",
           "voiceover",
           "visual_description",
           "key_scientific_concepts",

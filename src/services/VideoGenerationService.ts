@@ -168,7 +168,7 @@ Narration (voiceover, clear and engaging tone): "${scene.voiceover}"`;
       const isFirstScene = i === 0;
 
       console.log(`═══════════════════════════════════════════════════`);
-      console.log(`📍 Scene ${scene.id} (${scene.timestamp}):`);
+      console.log(`📍 Scene ${scene.id}:`);
       console.log(`   Motion: ${scene.motion_intensity}`);
       console.log(`   Has anchor image: ${scene.image_base64 !== null}`);
       console.log(`   Voiceover: "${scene.voiceover.substring(0, 50)}..."`);

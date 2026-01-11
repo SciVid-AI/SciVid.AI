@@ -145,7 +145,7 @@ export class ImageGenerationService {
       const scene = script.scenes[i];
       const isFirstScene = i === 0;
 
-      console.log(`📍 Scene ${scene.id} (${scene.timestamp}):`);
+      console.log(`📍 Scene ${scene.id}:`);
       console.log(`   Motion: ${scene.motion_intensity}`);
 
       if (this.shouldGenerateImage(scene, isFirstScene)) {
