@@ -36,6 +36,11 @@ npm run build
 2. **Gemini Image API Integration**
    - Anchor images generation
   
+3. **Veo API Integration**
+   - Video rendering
+   - Video concatenation
+   
+  
 ## Sample Videos 
 
 
@@ -68,8 +73,3 @@ npm run build
 [![Graphene Video](https://img.youtube.com/vi/F9vkgxOw5bk/0.jpg)](https://youtu.be/F9vkgxOw5bk)
 
 ---
-
-  
-3. **Veo API Integration**
-   - Video rendering
-   - Video concatenation
