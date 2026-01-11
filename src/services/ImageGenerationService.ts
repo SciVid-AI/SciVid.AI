@@ -33,7 +33,7 @@ const NEGATIVE_PROMPT =
  * ImageGenerationService
  *
  * 为剧本中的关键场景生成视觉锚点图片
- * 使用 Google Imagen 4.0 (最强图像生成模型)
+ * 使用 Gemini 3 Pro Image Preview
  */
 export class ImageGenerationService {
   private ai: GoogleGenAI;
@@ -69,7 +69,7 @@ export class ImageGenerationService {
   }
 
   /**
-   * 构建 Imagen 3 的 Prompt
+   * 构建 Gemini 3 Pro Image Preview 的 Prompt
    */
   private buildPrompt(scene: Scene, style: VideoStyle): string {
     const stylePrefix = STYLE_PROMPT_MAP[style];
@@ -77,36 +77,48 @@ export class ImageGenerationService {
   }
 
   /**
-   * 调用 Imagen 4.0 生成图片
-   * 使用 Google 最强的图像生成模型
+   * 调用 Gemini 3 Pro Image Preview 生成图片
+   * 使用 "Nano Banana" 模型
    */
-  private async generateImageWithImagen(
+  private async generateImageWithGemini(
     prompt: string,
     sceneId: number
   ): Promise<{ base64: string; path: string }> {
-    console.log(`  🎨 Calling Imagen 4.0 for scene ${sceneId}...`);
+    console.log(`  🎨 Calling Gemini 3 Pro Image Preview for scene ${sceneId}...`);
 
     try {
-      // 使用 @google/genai SDK 调用 Imagen 4.0
       // 将负向提示词合并到主提示词中
       const fullPrompt = `${prompt}. Avoid: ${NEGATIVE_PROMPT}`;
       
-      const response = await this.ai.models.generateImages({
-        model: "imagen-4.0-generate-001",
-        prompt: fullPrompt,
+      const response = await this.ai.models.generateContent({
+        model: "gemini-3-pro-image-preview",
+        contents: fullPrompt,
         config: {
-          numberOfImages: 1,
-          aspectRatio: "16:9",
+          responseModalities: ["image", "text"],
+          imageConfig: {
+            aspectRatio: "16:9",
+            imageSize: "4K",
+          },
         },
       });
 
       // 提取图片数据
-      const generatedImage = response.generatedImages?.[0];
-      if (!generatedImage?.image?.imageBytes) {
-        throw new Error("No image data in response");
+      const candidate = response.candidates?.[0];
+      if (!candidate?.content?.parts) {
+        throw new Error("No content in response");
       }
 
-      const base64Data = generatedImage.image.imageBytes;
+      let base64Data: string | null = null;
+      for (const part of candidate.content.parts) {
+        if (part.inlineData?.data) {
+          base64Data = part.inlineData.data;
+          break;
+        }
+      }
+
+      if (!base64Data) {
+        throw new Error("No image data in response");
+      }
 
       // 保存到本地文件
       const imagePath = path.join(this.outputDir, `scene_${sceneId}.png`);
@@ -154,7 +166,7 @@ export class ImageGenerationService {
         console.log(`   Prompt: ${prompt.substring(0, 100)}...`);
 
         try {
-          const { base64, path: imagePath } = await this.generateImageWithImagen(
+          const { base64, path: imagePath } = await this.generateImageWithGemini(
             prompt,
             scene.id
           );
