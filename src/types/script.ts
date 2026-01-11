@@ -68,6 +68,30 @@ export interface ScriptWithImages {
   scenes: SceneWithImage[];
 }
 
+/**
+ * 带视频的场景 (Step 3 输出)
+ */
+export interface SceneWithVideo extends SceneWithImage {
+  /** 本地视频路径 */
+  video_path: string;
+  /** Veo 返回的视频 URI (用于后续扩展) */
+  video_uri: string;
+}
+
+/**
+ * 最终输出 (Step 3 输出)
+ */
+export interface FinalOutput {
+  /** 吸引人的英语标题 */
+  title: string;
+  /** 所属科学领域 */
+  scientific_field: string;
+  /** 使用的视频风格 */
+  style: VideoStyle;
+  /** 带视频的场景列表 */
+  scenes: SceneWithVideo[];
+}
+
 import { SchemaType } from "@google/generative-ai";
 
 /**
