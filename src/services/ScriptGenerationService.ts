@@ -157,12 +157,9 @@ ${styleGuide}
 - **SYNC with voiceover**: Visual description MUST match the voiceover content exactly. If voiceover says "the virus attaches", the visual MUST show attachment.
 
 ### Scene Structure:
-- Generate **10-15 scenes** to ensure smooth pacing and transitions
+- Generate **exactly 9-10 scenes** (NO MORE than 10 scenes)
 - More scenes = smoother transitions, less content per scene
-- Structure guideline:
-  - Scene 1-2: Hook (most surprising finding)
-  - Scene 3-10: Build understanding step-by-step
-  - Scene 11-15: Impact, significance, future implications
+- Structure guideline from hook (most surprising finding), to build understanding step-by-step, to impact, significance, future implications
 
 ### Key Scientific Concepts:
 - List the actual scientific entities that should appear in each visual
