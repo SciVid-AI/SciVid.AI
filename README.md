@@ -36,6 +36,40 @@ npm run build
 2. **Gemini Image API Integration**
    - Anchor images generation
   
+## Sample Videos 
+
+
+### Altered TMPRSS2 usage by SARS-CoV-2 Omicron impacts infectivity and fusogenicity  
+**Watch Video:** https://youtu.be/3PmE5KiyfIw  
+**Paper Topic:** Virology · COVID-19 Variants · Cell Entry Mechanisms 
+
+**Style:** Anime
+
+[![Omicron Video](https://img.youtube.com/vi/3PmE5KiyfIw/0.jpg)](https://youtu.be/3PmE5KiyfIw)
+
+---
+
+### A brief visit from a red and extremely elongate interstellar asteroid  
+**Watch Video:** https://youtu.be/CBPf4s2y2a4  
+**Paper Topic:** Astronomy · Interstellar Objects · Astrophysics  
+
+**Style:** Cinematic
+
+[![Asteroid Video](https://img.youtube.com/vi/CBPf4s2y2a4/0.jpg)](https://youtu.be/CBPf4s2y2a4)
+
+---
+
+### Quantum Spin Hall Effect in Graphene  
+**Watch Video:** https://youtu.be/F9vkgxOw5bk  
+**Paper Topic:** Condensed Matter Physics · Quantum Materials · Graphene
+
+**Style:** Academic
+
+[![Graphene Video](https://img.youtube.com/vi/F9vkgxOw5bk/0.jpg)](https://youtu.be/F9vkgxOw5bk)
+
+---
+
+  
 3. **Veo API Integration**
    - Video rendering
    - Video concatenation
