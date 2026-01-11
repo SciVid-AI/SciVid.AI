@@ -24,7 +24,7 @@ export const useAppStore = create<AppStore>((set) => ({
     isProcessing: false,
   },
   
-  selectedStyle: 'nature-cinematic',
+  selectedStyle: 'cinematic',
   customPrompt: '',
   
   generationSteps: initialGenerationSteps,
@@ -71,7 +71,7 @@ export const useAppStore = create<AppStore>((set) => ({
       abstract: '',
       isProcessing: false,
     },
-    selectedStyle: 'nature-cinematic',
+    selectedStyle: 'cinematic',
     customPrompt: '',
     generationSteps: initialGenerationSteps,
     currentStepIndex: -1,

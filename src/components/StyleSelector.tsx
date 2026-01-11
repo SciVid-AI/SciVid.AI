@@ -1,52 +1,51 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Sparkles, Palette, Zap, Beaker, Cog } from 'lucide-react';
+import { Sparkles, Clapperboard, GraduationCap, Tv, MinusSquare } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
-import { Textarea } from '@/components/ui/textarea';
 import type { VideoStyle, VideoStyleOption } from '@/lib/types';
 
 const styleOptions: VideoStyleOption[] = [
   {
-    id: 'nature-cinematic',
-    name: 'Nature Cinematic',
-    description: 'Realistic 3D rendering with dark backgrounds, commonly used for medical/biology papers',
+    id: 'cinematic',
+    name: 'Cinematic',
+    description: 'Epic, movie-like visuals with dramatic camera movements and Hollywood-style color grading',
     preview: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-    tags: ['Cinematic', '3D', 'BioMed'],
+    tags: ['Epic', 'Dramatic', 'Hollywood'],
   },
   {
-    id: 'blueprint',
-    name: 'Blueprint Industrial',
-    description: 'Technical blueprint style with line art, ideal for engineering/physics/math',
-    preview: 'linear-gradient(135deg, #0a1628 0%, #1e3a5f 50%, #0d2137 100%)',
-    tags: ['Blueprint', 'Technical', 'Engineering'],
+    id: 'academic',
+    name: 'Academic Research',
+    description: 'Professional scientific visualization with rigorous accuracy, journal-quality figures',
+    preview: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%)',
+    tags: ['Scientific', 'Technical', 'Journal'],
   },
   {
-    id: 'trendy-motion',
-    name: 'Trendy Motion',
-    description: 'Bright colors, high contrast, dynamic design similar to viral science content',
+    id: 'anime',
+    name: 'Animation',
+    description: 'Western cartoon aesthetic inspired by Pixar, Disney, Arcane, and Spider-Verse',
     preview: 'linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%)',
-    tags: ['Trendy', 'SciComm', 'Dynamic'],
+    tags: ['Pixar', 'Stylized', 'Dynamic'],
   },
   {
-    id: 'custom',
-    name: 'Custom Style',
-    description: 'Describe your desired visual style using natural language',
-    preview: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
-    tags: ['Custom', 'AI', 'Creative'],
+    id: 'minimalist',
+    name: 'Minimalist',
+    description: '3Blue1Brown-inspired clean math visuals with elegant animations and dark backgrounds',
+    preview: 'linear-gradient(135deg, #1a1a2e 0%, #3b82f6 50%, #fbbf24 100%)',
+    tags: ['3B1B', 'Math', 'Clean'],
   },
 ];
 
 const iconMap: Record<VideoStyle, React.ReactNode> = {
-  'nature-cinematic': <Beaker className="w-6 h-6" />,
-  'blueprint': <Cog className="w-6 h-6" />,
-  'trendy-motion': <Zap className="w-6 h-6" />,
-  'custom': <Palette className="w-6 h-6" />,
+  'cinematic': <Clapperboard className="w-6 h-6" />,
+  'academic': <GraduationCap className="w-6 h-6" />,
+  'anime': <Tv className="w-6 h-6" />,
+  'minimalist': <MinusSquare className="w-6 h-6" />,
 };
 
 export function StyleSelector() {
-  const { selectedStyle, setStyle, customPrompt, setCustomPrompt } = useAppStore();
+  const { selectedStyle, setStyle } = useAppStore();
   
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -68,7 +67,7 @@ export function StyleSelector() {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="w-full px-4 space-y-6"
+      className="w-full p-4 space-y-6"
     >
       <div className="text-center space-y-2">
         <motion.div 
@@ -157,33 +156,6 @@ export function StyleSelector() {
         ))}
       </motion.div>
       
-      {/* Custom Prompt Input */}
-      <motion.div
-        variants={cardVariants}
-        initial={{ opacity: 0, height: 0 }}
-        animate={{ 
-          opacity: selectedStyle === 'custom' ? 1 : 0,
-          height: selectedStyle === 'custom' ? 'auto' : 0,
-        }}
-        transition={{ duration: 0.3 }}
-        className="overflow-hidden"
-      >
-        <div className="glass glass-border rounded-2xl p-4 space-y-3">
-          <label className="text-sm font-medium text-foreground flex items-center gap-2">
-            <Palette className="w-4 h-4 text-primary" />
-            Describe your desired visual style
-          </label>
-          <Textarea
-            value={customPrompt}
-            onChange={(e) => setCustomPrompt(e.target.value)}
-            placeholder='e.g., "Cyberpunk aesthetic with neon colors and dark backgrounds" or "Pixar animation style, warm and bright, cartoon rendering"'
-            className="min-h-[100px] bg-background/50 border-muted resize-none"
-          />
-          <p className="text-xs text-muted-foreground">
-            💡 Tip: The more detailed your description, the more accurate the video style. Reference movies, games, or artists for inspiration.
-          </p>
-        </div>
-      </motion.div>
     </motion.div>
   );
 }

@@ -3,10 +3,10 @@ export type AppState = 'landing' | 'configuration' | 'generating' | 'result';
 
 // Video Style Options
 export type VideoStyle = 
-  | 'nature-cinematic' 
-  | 'blueprint' 
-  | 'trendy-motion' 
-  | 'custom';
+  | 'cinematic' 
+  | 'academic' 
+  | 'anime' 
+  | 'minimalist';
 
 export interface VideoStyleOption {
   id: VideoStyle;
