@@ -3,14 +3,12 @@
 import { create } from 'zustand';
 import type { AppStore, GenerationStep } from './types';
 
+// 四步生成流程
 const initialGenerationSteps: GenerationStep[] = [
-  { id: 'parse', label: 'Parsing paper structure', status: 'pending' },
-  { id: 'extract', label: 'Extracting key insights', status: 'pending' },
-  { id: 'script', label: 'Generating video script', status: 'pending' },
-  { id: 'storyboard', label: 'Creating storyboards', status: 'pending' },
-  { id: 'render', label: 'Rendering video segments', status: 'pending' },
-  { id: 'audio', label: 'Synthesizing audio track', status: 'pending' },
-  { id: 'compose', label: 'Final composition & export', status: 'pending' },
+  { id: 'script', label: 'Step 1: Analyzing PDF & Generating Script', status: 'pending', progress: 0 },
+  { id: 'images', label: 'Step 2: Generating Visual Anchors', status: 'pending', progress: 0 },
+  { id: 'videos', label: 'Step 3: Rendering Video Segments (Veo 3.1)', status: 'pending', progress: 0 },
+  { id: 'concat', label: 'Step 4: Concatenating Final Video', status: 'pending', progress: 0 },
 ];
 
 export const useAppStore = create<AppStore>((set) => ({
@@ -31,6 +29,7 @@ export const useAppStore = create<AppStore>((set) => ({
   currentStepIndex: -1,
   
   result: null,
+  error: null,
   
   // Actions
   setAppState: (state) => set({ currentState: state }),
@@ -45,13 +44,16 @@ export const useAppStore = create<AppStore>((set) => ({
   
   startGeneration: () => set({ 
     currentState: 'generating',
-    generationSteps: initialGenerationSteps.map(step => ({ ...step, status: 'pending' as const })),
+    generationSteps: initialGenerationSteps.map(step => ({ ...step, status: 'pending' as const, progress: 0 })),
     currentStepIndex: 0,
+    error: null,
   }),
   
-  updateGenerationStep: (stepId, status, detail) => set((store) => ({
+  updateGenerationStep: (stepId, status, detail, progress) => set((store) => ({
     generationSteps: store.generationSteps.map(step => 
-      step.id === stepId ? { ...step, status, detail } : step
+      step.id === stepId 
+        ? { ...step, status, detail, progress: progress ?? step.progress } 
+        : step
     ),
     currentStepIndex: status === 'completed' 
       ? store.generationSteps.findIndex(s => s.id === stepId) + 1 
@@ -62,6 +64,8 @@ export const useAppStore = create<AppStore>((set) => ({
     result,
     currentState: 'result',
   }),
+  
+  setError: (error) => set({ error }),
   
   reset: () => set({
     currentState: 'landing',
@@ -76,5 +80,6 @@ export const useAppStore = create<AppStore>((set) => ({
     generationSteps: initialGenerationSteps,
     currentStepIndex: -1,
     result: null,
+    error: null,
   }),
 }));

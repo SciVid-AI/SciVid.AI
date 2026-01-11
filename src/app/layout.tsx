@@ -15,10 +15,10 @@ const firaCode = Fira_Code({
 });
 
 export const metadata: Metadata = {
-  title: "Paper2Video - AI Academic Video Generator",
+  title: "SciVid.AI - AI Academic Video Generator",
   description: "Transform academic papers into engaging video summaries using Gemini, Veo, and ImageFX",
   keywords: ["academic", "paper", "video", "AI", "Gemini", "Veo", "research"],
-  authors: [{ name: "Paper2Video Team" }],
+  authors: [{ name: "SciVid.AI Team" }],
 };
 
 export default function RootLayout({

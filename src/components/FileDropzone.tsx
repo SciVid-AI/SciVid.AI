@@ -31,14 +31,12 @@ export function FileDropzone() {
   
   const processFile = async (file: File) => {
     setPaper({ file, isProcessing: true });
-    
-    // Simulate Gemini extracting title/abstract (will be replaced with actual API)
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Mock extracted data - in production, this would come from Gemini API
+
+    const fileName = file.name.replace(/\.pdf$/i, '');
+
     setPaper({
-      title: 'Attention Is All You Need: Transformer Architecture for Sequence Modeling',
-      abstract: 'We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely...',
+      title: fileName,
+      abstract: 'Paper uploaded successfully. Ready for image generation...',
       isProcessing: false,
     });
     

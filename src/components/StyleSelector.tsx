@@ -16,7 +16,7 @@ const styleOptions: VideoStyleOption[] = [
   },
   {
     id: 'academic',
-    name: 'Academic Research',
+    name: 'Academic',
     description: 'Professional scientific visualization with rigorous accuracy, journal-quality figures',
     preview: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%)',
     tags: ['Scientific', 'Technical', 'Journal'],

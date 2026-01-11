@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+output/
+
+# Generated output files (keep .gitkeep)
+public/output/**
+!public/output/.gitkeep
+!public/output/images/.gitkeep
+!public/output/videos/.gitkeep
