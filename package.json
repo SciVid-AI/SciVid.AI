@@ -10,7 +10,8 @@
     "dev": "tsx src/index.ts",
     "generate": "tsx src/index.ts",
     "images": "tsx src/generateImages.ts",
-    "videos": "tsx src/generateVideos.ts"
+    "videos": "tsx src/generateVideos.ts",
+    "concat": "tsx src/concatVideos.ts"
   },
   "keywords": [
     "ai",
