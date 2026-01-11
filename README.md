@@ -21,8 +21,6 @@ npm run build
 
 ## Development Steps
 
-### API Integration
-
 1. **Gemini API Integration**
    - PDF parsing and content extraction
    - Paper summarization
