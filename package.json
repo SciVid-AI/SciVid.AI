@@ -8,12 +8,19 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "tsx src/index.ts",
-    "generate": "tsx src/index.ts"
+    "generate": "tsx src/index.ts",
+    "images": "tsx src/generateImages.ts"
   },
-  "keywords": ["ai", "video", "science", "gemini"],
+  "keywords": [
+    "ai",
+    "video",
+    "science",
+    "gemini"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@google/genai": "^1.35.0",
     "@google/generative-ai": "^0.21.0",
     "dotenv": "^16.4.5"
   },

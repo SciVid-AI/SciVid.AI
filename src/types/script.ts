@@ -33,7 +33,7 @@ export interface Scene {
 }
 
 /**
- * 完整剧本输出结构
+ * 完整剧本输出结构 (Step 1 输出)
  */
 export interface ScriptOutput {
   /** 吸引人的英语标题 */
@@ -42,6 +42,30 @@ export interface ScriptOutput {
   scientific_field: string;
   /** 场景列表 */
   scenes: Scene[];
+}
+
+/**
+ * 带图片的场景 (Step 2 输出)
+ */
+export interface SceneWithImage extends Scene {
+  /** 本地图片路径，null 表示跳过生成 */
+  image_path: string | null;
+  /** Base64 编码的图片数据，null 表示跳过生成 */
+  image_base64: string | null;
+}
+
+/**
+ * 带图片的完整剧本 (Step 2 输出)
+ */
+export interface ScriptWithImages {
+  /** 吸引人的英语标题 */
+  title: string;
+  /** 所属科学领域 */
+  scientific_field: string;
+  /** 使用的视频风格 */
+  style: VideoStyle;
+  /** 带图片的场景列表 */
+  scenes: SceneWithImage[];
 }
 
 import { SchemaType } from "@google/generative-ai";

@@ -141,7 +141,7 @@ ${styleGuide}
 - **Language**: English ONLY
 - **Style**: Conversational, punchy, energetic
 - **Structure**: Short sentences. No complex clauses. Use rhetorical questions to hook viewers.
-- **Length**: Each scene's voiceover should be 5-7 seconds when spoken aloud
+- **Length**: Each scene's voiceover MUST fit within 5-8 seconds when spoken aloud (matches Veo's 8s limit)
 - **NO academic jargon** - if a term is necessary, immediately explain it
 
 ### Visual Description Rules:
@@ -156,13 +156,14 @@ ${styleGuide}
 
 ### Scene Structure:
 - Generate between 5-10 scenes based on the paper's complexity and content richness
+- **CRITICAL: Each scene MUST be 5-8 seconds MAX** (Veo 3 video generation limit is 8 seconds per clip)
+- Timestamp format examples: "00-05s", "05-10s", "10-18s" (NEVER exceed 8 seconds per scene)
 - Simple findings → 5-6 scenes; Complex multi-step mechanisms → 8-10 scenes
-- Total video length: 30-60 seconds (each scene ~5 seconds)
 - Structure guideline:
   - First 1-2 scenes: Hook (grab attention with the most surprising finding)
   - Middle scenes (flexible): Build understanding step-by-step, one concept per scene
   - Final 1-2 scenes: Reveal impact, significance, or future implications
-- IMPORTANT: Quality over quantity—only add scenes if they contribute meaningful content
+- Quality over quantity—only add scenes if they contribute meaningful content
 
 ### Key Scientific Concepts:
 - List the actual scientific entities that should appear in each visual
