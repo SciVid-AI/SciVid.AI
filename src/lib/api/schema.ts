@@ -40,6 +40,7 @@ export const ScriptOutputSchema: Schema = {
           },
           motion_intensity: {
             type: SchemaType.STRING,
+            format: "enum",
             enum: ["Low", "Medium", "High"],
             description: "The intensity of motion in this scene"
           }
