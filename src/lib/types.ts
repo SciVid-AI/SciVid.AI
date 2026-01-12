@@ -80,6 +80,9 @@ export interface AppStore {
   selectedStyle: VideoStyle;
   customPrompt: string;
   
+  // API Key
+  apiKey: string;
+  
   // Generation
   generationSteps: GenerationStep[];
   currentStepIndex: number;
@@ -95,6 +98,7 @@ export interface AppStore {
   setPaper: (paper: Partial<PaperData>) => void;
   setStyle: (style: VideoStyle) => void;
   setCustomPrompt: (prompt: string) => void;
+  setApiKey: (apiKey: string) => void;
   startGeneration: () => void;
   updateGenerationStep: (stepId: GenerationStepId, status: GenerationStep['status'], detail?: string, progress?: number) => void;
   setResult: (result: VideoResult) => void;

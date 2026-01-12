@@ -5,6 +5,7 @@ import { Sparkles, Github, Moon, Sun } from 'lucide-react';
 import { useState } from 'react';
 import { FileDropzone } from '@/components/FileDropzone';
 import { StyleSelector } from '@/components/StyleSelector';
+import { ApiKeyInput } from '@/components/ApiKeyInput';
 import { ActionBar } from '@/components/ActionBar';
 import { ResultPreview } from '@/components/ResultPreview';
 import { useAppStore } from '@/lib/store';
@@ -149,6 +150,21 @@ export default function Home() {
               className="mb-8 overflow-hidden px-1"
             >
               <StyleSelector />
+            </motion.section>
+          )}
+        </AnimatePresence>
+        
+        {/* API Key Input Section */}
+        <AnimatePresence>
+          {showStyleSelector && (
+            <motion.section
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="mb-8 overflow-hidden"
+            >
+              <ApiKeyInput />
             </motion.section>
           )}
         </AnimatePresence>

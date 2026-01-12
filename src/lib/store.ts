@@ -25,6 +25,8 @@ export const useAppStore = create<AppStore>((set) => ({
   selectedStyle: 'cinematic',
   customPrompt: '',
   
+  apiKey: '',
+  
   generationSteps: initialGenerationSteps,
   currentStepIndex: -1,
   
@@ -41,6 +43,8 @@ export const useAppStore = create<AppStore>((set) => ({
   setStyle: (style) => set({ selectedStyle: style }),
   
   setCustomPrompt: (prompt) => set({ customPrompt: prompt }),
+  
+  setApiKey: (apiKey) => set({ apiKey }),
   
   startGeneration: () => set({ 
     currentState: 'generating',
@@ -77,6 +81,7 @@ export const useAppStore = create<AppStore>((set) => ({
     },
     selectedStyle: 'cinematic',
     customPrompt: '',
+    apiKey: '',
     generationSteps: initialGenerationSteps,
     currentStepIndex: -1,
     result: null,

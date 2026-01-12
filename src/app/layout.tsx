@@ -19,6 +19,10 @@ export const metadata: Metadata = {
   description: "Transform academic papers into engaging video summaries using Gemini, Veo, and ImageFX",
   keywords: ["academic", "paper", "video", "AI", "Gemini", "Veo", "research"],
   authors: [{ name: "SciVid.AI Team" }],
+  icons: {
+    icon: "/logo.svg",
+    apple: "/logo.svg",
+  },
 };
 
 export default function RootLayout({

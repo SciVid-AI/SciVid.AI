@@ -26,6 +26,7 @@ export function ActionBar() {
     currentState, 
     paper, 
     selectedStyle,
+    apiKey,
     startGeneration,
     generationSteps,
     updateGenerationStep,
@@ -39,7 +40,7 @@ export function ActionBar() {
   const [currentSubStep, setCurrentSubStep] = useState<string>('');
   const logsEndRef = useRef<HTMLDivElement>(null);
   
-  const isReady = paper.file && !paper.isProcessing;
+  const isReady = paper.file && !paper.isProcessing && apiKey.length > 0;
   const isGenerating = currentState === 'generating';
   
   // 添加日志
@@ -99,7 +100,7 @@ export function ActionBar() {
       addLog(1, '🧠 Gemini 3 Pro is generating script...', 'progress');
       updateGenerationStep('script', 'active', 'Generating viral TikTok-style script...', 40);
       
-      const scriptResult = await generateScript(pdfBase64, fileName, style);
+      const scriptResult = await generateScript(pdfBase64, fileName, style, apiKey);
       
       if (!scriptResult.success || !scriptResult.sessionId) {
         throw new Error(scriptResult.error || 'Failed to generate script');
@@ -136,7 +137,7 @@ export function ActionBar() {
         throw new Error('Session ID is missing');
       }
       
-      const imagesResult = await generateImages(sessionId);
+      const imagesResult = await generateImages(sessionId, apiKey);
       clearInterval(imageProgressInterval);
       
       if (!imagesResult.success) {
@@ -170,7 +171,7 @@ export function ActionBar() {
         throw new Error('Session ID is missing');
       }
       
-      const videosResult = await generateVideos(sessionId);
+      const videosResult = await generateVideos(sessionId, apiKey);
       clearInterval(videoProgressInterval);
       
       if (!videosResult.success) {
@@ -256,7 +257,7 @@ export function ActionBar() {
     } finally {
       setIsRunning(false);
     }
-  }, [paper.file, selectedStyle, isRunning, fileToBase64, updateGenerationStep, setResult, setError, addLog, generationSteps]);
+  }, [paper.file, selectedStyle, apiKey, isRunning, fileToBase64, updateGenerationStep, setResult, setError, addLog, generationSteps]);
   
   // Start pipeline when generation begins
   useEffect(() => {

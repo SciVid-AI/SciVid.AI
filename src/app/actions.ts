@@ -27,12 +27,12 @@ function generateSessionId(): string {
 export async function generateScript(
   pdfBase64: string,
   fileName: string,
-  style: VideoStyle
+  style: VideoStyle,
+  apiKey: string
 ): Promise<{ success: boolean; sessionId?: string; error?: string }> {
   try {
-    const apiKey = process.env.GOOGLE_API_KEY;
     if (!apiKey) {
-      throw new Error('GOOGLE_API_KEY is not configured');
+      throw new Error('Google API Key is required');
     }
 
     const sessionId = generateSessionId();
@@ -62,12 +62,12 @@ export async function generateScript(
  * Step 2: 读取 script.json，生成图片，保存为 scriptWithImages.json
  */
 export async function generateImages(
-  sessionId: string
+  sessionId: string,
+  apiKey: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const apiKey = process.env.GOOGLE_API_KEY;
     if (!apiKey) {
-      throw new Error('GOOGLE_API_KEY is not configured');
+      throw new Error('Google API Key is required');
     }
 
     const sessionDir = path.join(OUTPUT_BASE, sessionId);
@@ -104,12 +104,12 @@ export async function generateImages(
  * Step 3: 读取 scriptWithImages.json，生成视频，保存为 finalOutput.json
  */
 export async function generateVideos(
-  sessionId: string
+  sessionId: string,
+  apiKey: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const apiKey = process.env.GOOGLE_API_KEY;
     if (!apiKey) {
-      throw new Error('GOOGLE_API_KEY is not configured');
+      throw new Error('Google API Key is required');
     }
 
     const sessionDir = path.join(OUTPUT_BASE, sessionId);
